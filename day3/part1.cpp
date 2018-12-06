@@ -10,7 +10,7 @@ using namespace std;
 
 int main() {
 
-    int number_overlapping_claims = 0;
+    int overlapping_claims = 0;
     int fabric[1001][1001] = { {0} };
 
     string currentClaim;
@@ -38,12 +38,12 @@ int main() {
     for(int x = 0; x < 1001; x++) {
         for(int y = 0; y < 1001; y++) {
             if(fabric[x][y] > 1) {
-                ++number_overlapping_claims;
+                ++overlapping_claims;
             }
         }
     }
 
-    cout << "number of square inches within two or more claims is " << number_overlapping_claims << endl;
+    cout << "number of square inches within two or more claims is " << overlapping_claims << endl;
 
     return EXIT_SUCCESS;
 }
