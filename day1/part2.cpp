@@ -27,7 +27,7 @@ int main() {
     while(true) {
         frequencySoFar += stoi(originalFrequencyChanges[originalFrequencyChangesIndex]);
         if (uniqueFrequencies.find(frequencySoFar) != uniqueFrequencies.end() && frequencySoFar != skippedFirstFrequency) {
-                break;
+            break;
         }
         uniqueFrequencies.insert(frequencySoFar);
         originalFrequencyChangesIndex = (originalFrequencyChangesIndex + 1) % originalFrequencyChangesSize;
