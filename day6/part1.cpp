@@ -49,10 +49,6 @@ int main() {
         coordinates.push_back(make_pair(x, y));
     }
 
-    int max_dimension = max(max_x, max_y);
-
-    cout << min_x << " " << max_x << " " << min_y << " " << max_y <<  " " << max_dimension <<  endl;
-
     for(int i = min_x; i <= max_x; i++) {
         for(int j = min_y; j <= max_y; j++) {
 
@@ -77,26 +73,17 @@ int main() {
                 }
             }
 
-
             if(min_coordinate_map[min_distance].size() == 1) {
 
                 pair<int, int> min_coordinate = min_coordinate_map[min_distance][0];
-
-                /*cout << " The minimum distance is " << min_distance << " between " << current_x << " " << current_y <<
-                " and " << get<0>(min_coordinate) << "_" << get<1>(min_coordinate) << endl;*/
                 string k = to_string(get<0>(min_coordinate)) + "_" + to_string(get<1>(min_coordinate));
-
                 if (coordinates_area_map.find(k) == coordinates_area_map.end() || coordinates_area_map[k] == INT_MIN) {
-                   /* cout << " starting a new coordinate " << k << endl;*/
                     coordinates_area_map[k] = 0;
                 }
-
-                if(!(get<0>(min_coordinate) == min_x || get<0>(min_coordinate) >= max_x ||
-                get<1>(min_coordinate) == min_y || get<1>(min_coordinate) >= max_y)) {
-
-                    /*cout << " coordinate is  " << k << endl;*/
+                if(!(get<0>(min_coordinate) == min_x || get<0>(min_coordinate) == max_x ||
+                get<1>(min_coordinate) == min_y || get<1>(min_coordinate) == max_y
+                || current_x == min_x || current_x == max_x || current_y == min_y || current_y == max_y)) {
                     coordinates_area_map[k]++;
-
                 } else {
                     coordinates_area_map[k] = INT_MIN;
                 }
@@ -108,8 +95,6 @@ int main() {
 
     auto it = coordinates_area_map.begin();
     while(it != coordinates_area_map.end()) {
-        cout << " coordinates " << it->first << " area is " << it->second << endl;
-
         if (max_area < it->second) {
             max_area = it->second;
             max_coordinate = it->first;
