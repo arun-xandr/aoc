@@ -1,0 +1,78 @@
+//
+// Created by Arun Shanmugam Kumar on 2018-12-10.
+//
+
+
+#include <iostream>
+#include <stack>
+#include <sstream>
+#include <vector>
+#include <map>
+#include <set>
+
+using namespace std;
+
+int main() {
+
+    string current_step;
+    vector<pair<char, char>> edges;
+    set<char> unique_steps;
+
+    while(getline(cin, current_step) && !current_step.empty()) {
+
+        stringstream ss(current_step);
+
+        char first;
+        char second;
+        string skip;
+
+        ss >> skip >> first >> skip >> skip >> skip >> skip >> skip >> second;
+        edges.push_back(make_pair(first, second));
+        unique_steps.insert(first);
+        unique_steps.insert(second);
+    }
+
+    map<char, int> incoming_edges_map;
+    set<char> next_edge;
+
+    for(auto it = edges.begin(); it != edges.end(); ++it) {
+        pair<char, char> current_edge = *it;
+        char from = get<0>(current_edge);
+        char to = get<1>(current_edge);
+        incoming_edges_map[to]++;
+    }
+
+    for(auto it = unique_steps.begin(); it != unique_steps.end(); ++it) {
+        if(incoming_edges_map.find(*it) == incoming_edges_map.end() ||
+                incoming_edges_map[*it] == 0) {
+            next_edge.insert(*it);
+        }
+    }
+
+    auto it = next_edge.begin();
+    while(it != next_edge.end()) {
+
+        char current_node = *it;
+
+        cout << current_node;
+
+        it = next_edge.erase(it);
+
+        // opportunity for optimization by using a heap
+        for(auto it1 = edges.begin(); it1 != edges.end(); it1++) {
+
+            if (get<0>(*it1) == current_node) {
+
+                incoming_edges_map[get<1>(*it1)]--;
+
+                if(incoming_edges_map[get<1>(*it1)] == 0) {
+                    next_edge.insert(get<1>(*it1));
+                    it = next_edge.begin();
+                }
+            }
+        }
+    }
+
+
+    return EXIT_SUCCESS;
+}
